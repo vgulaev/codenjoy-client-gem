@@ -19,7 +19,7 @@ module Codenjoy
         res
       end
 
-      def play(url, log_level)
+      def play(url, log_level = nil)
         @log_level = log_level
         EM.run {
           ws = Faye::WebSocket::Client.new(ws_url(url))
@@ -33,7 +33,7 @@ module Codenjoy
           end
 
           ws.on :close do |event|
-            p [:close, event.code, event.reason]  if == 'debug' @log_level
+            p [:close, event.code, event.reason]  if 'debug' == @log_level
             ws = nil
           end
         }
