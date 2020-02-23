@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    codenjoy-client (0.1.001)
+    codenjoy-client (0.1.002)
       faye-websocket
 
 GEM

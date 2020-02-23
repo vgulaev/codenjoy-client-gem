@@ -1,3 +1,16 @@
 #!/usr/bin/env ruby
 
-p "Hello from codenjoy"
+# require "pathname"
+require "codenjoy/client"
+
+game = Codenjoy::Client::Game::new
+sourse = "#{game.source_path}/game_base_client.rb"
+dest = "#{Dir.pwd}/game_base_client.rb"
+
+p "#{sourse} ==> #{dest}"
+if File.exist?(dest)
+  p "File already exist"
+else
+  FileUtils.cp(sourse, dest)
+end
+

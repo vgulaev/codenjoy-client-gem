@@ -38,6 +38,10 @@ module Codenjoy
           end
         }
       end
+
+      def source_path
+        __dir__
+      end
     end
   end
 end
