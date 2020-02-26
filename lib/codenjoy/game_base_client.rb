@@ -24,7 +24,8 @@ class YourSolver
 end
 
 game = Codenjoy::Client::Game.new
-board = Codenjoy::Client::Games::Battlecity::Board.new
+# board = Codenjoy::Client::Games::Battlecity::Board.new
+board = Codenjoy::Client::Games::Tetris::Board.new
 
 url = "https://dojorena.io/codenjoy-contest/board/player/70xewv6o7ddy9yphm1u0?code=2603484461919438773&gameName=battlecity"
 count = 0

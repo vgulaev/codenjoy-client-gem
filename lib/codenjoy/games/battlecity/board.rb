@@ -20,56 +20,8 @@
 # #L%
 ###
 
+require "codenjoy/utils"
 require 'json'
-
-# Point class
-class Point
-  attr_accessor :x
-  attr_accessor :y
-
-  # Coords (1,1) - upper left side of field
-  #
-  # @param [Integer] x X coord
-  # @param [Integer] y Y coord
-  def initialize(x, y)
-    @x = x
-    @y = y
-  end
-
-  # Override of compare method for Point
-  def == (other_object)
-    other_object.x == @x && other_object.y == @y
-  end
-
-  # For better +.inspect+ output
-  def to_s
-    "[#{@x},#{@y}]"
-  end
-
-  # Position of point above current
-  def up
-    Point.new(@x, @y + 1)
-  end
-
-  # Position of point below current
-  def down
-    Point.new(@x, @y - 1)
-  end
-
-  # Position of point on the left side
-  def left
-    Point.new(@x - 1, @y)
-  end
-
-  # Position of point on the right side
-  def right
-    Point.new(@x + 1, @y)
-  end
-
-  def out_of?(board_size)
-    x >= board_size || y >= board_size || x < 0 || y < 0;
-  end
-end
 
 class LengthToXY
   def initialize(board_size)
@@ -101,205 +53,205 @@ end
 module Codenjoy
   module Client
     module Games
+      module Battlecity
+      end
     end
   end
 end
 
-module Codenjoy::Client::Games::Battlecity
-  class Board
+class Codenjoy::Client::Games::Battlecity::Board
 
-    ELEMENTS = {
-      NONE: ' ',
-      BATTLE_WALL: '☼',
-      BANG: 'Ѡ',
+  ELEMENTS = {
+    NONE: ' ',
+    BATTLE_WALL: '☼',
+    BANG: 'Ѡ',
 
-      CONSTRUCTION: '╬',
+    CONSTRUCTION: '╬',
 
-      CONSTRUCTION_DESTROYED_DOWN: '╩',
-      CONSTRUCTION_DESTROYED_UP: '╦',
-      CONSTRUCTION_DESTROYED_LEFT: '╠',
-      CONSTRUCTION_DESTROYED_RIGHT: '╣',
+    CONSTRUCTION_DESTROYED_DOWN: '╩',
+    CONSTRUCTION_DESTROYED_UP: '╦',
+    CONSTRUCTION_DESTROYED_LEFT: '╠',
+    CONSTRUCTION_DESTROYED_RIGHT: '╣',
 
-      CONSTRUCTION_DESTROYED_DOWN_TWICE: '╨',
-      CONSTRUCTION_DESTROYED_UP_TWICE: '╥',
-      CONSTRUCTION_DESTROYED_LEFT_TWICE: '╞',
-      CONSTRUCTION_DESTROYED_RIGHT_TWICE: '╡',
+    CONSTRUCTION_DESTROYED_DOWN_TWICE: '╨',
+    CONSTRUCTION_DESTROYED_UP_TWICE: '╥',
+    CONSTRUCTION_DESTROYED_LEFT_TWICE: '╞',
+    CONSTRUCTION_DESTROYED_RIGHT_TWICE: '╡',
 
-      CONSTRUCTION_DESTROYED_LEFT_RIGHT: '│',
-      CONSTRUCTION_DESTROYED_UP_DOWN: '─',
+    CONSTRUCTION_DESTROYED_LEFT_RIGHT: '│',
+    CONSTRUCTION_DESTROYED_UP_DOWN: '─',
 
-      CONSTRUCTION_DESTROYED_UP_LEFT: '┌',
-      CONSTRUCTION_DESTROYED_RIGHT_UP: '┐',
-      CONSTRUCTION_DESTROYED_DOWN_LEFT: '└',
-      CONSTRUCTION_DESTROYED_DOWN_RIGHT: '┘',
+    CONSTRUCTION_DESTROYED_UP_LEFT: '┌',
+    CONSTRUCTION_DESTROYED_RIGHT_UP: '┐',
+    CONSTRUCTION_DESTROYED_DOWN_LEFT: '└',
+    CONSTRUCTION_DESTROYED_DOWN_RIGHT: '┘',
 
-      CONSTRUCTION_DESTROYED: ' ',
+    CONSTRUCTION_DESTROYED: ' ',
 
-      BULLET: '•',
+    BULLET: '•',
 
-      TANK_UP: '▲',
-      TANK_RIGHT: '►',
-      TANK_DOWN: '▼',
-      TANK_LEFT: '◄',
+    TANK_UP: '▲',
+    TANK_RIGHT: '►',
+    TANK_DOWN: '▼',
+    TANK_LEFT: '◄',
 
-      OTHER_TANK_UP: '˄',
-      OTHER_TANK_RIGHT: '˃',
-      OTHER_TANK_DOWN: '˅',
-      OTHER_TANK_LEFT: '˂',
+    OTHER_TANK_UP: '˄',
+    OTHER_TANK_RIGHT: '˃',
+    OTHER_TANK_DOWN: '˅',
+    OTHER_TANK_LEFT: '˂',
 
-      AI_TANK_UP: '?',
-      AI_TANK_RIGHT: '»',
-      AI_TANK_DOWN: '¿',
-      AI_TANK_LEFT: '«'
-    }
+    AI_TANK_UP: '?',
+    AI_TANK_RIGHT: '»',
+    AI_TANK_DOWN: '¿',
+    AI_TANK_LEFT: '«'
+  }
 
-    ENEMIES = [
-      ELEMENTS[:AI_TANK_UP],
-      ELEMENTS[:AI_TANK_DOWN],
-      ELEMENTS[:AI_TANK_LEFT],
-      ELEMENTS[:AI_TANK_RIGHT],
-      ELEMENTS[:OTHER_TANK_UP],
-      ELEMENTS[:OTHER_TANK_DOWN],
-      ELEMENTS[:OTHER_TANK_LEFT],
-      ELEMENTS[:OTHER_TANK_RIGHT]
-    ]
+  ENEMIES = [
+    ELEMENTS[:AI_TANK_UP],
+    ELEMENTS[:AI_TANK_DOWN],
+    ELEMENTS[:AI_TANK_LEFT],
+    ELEMENTS[:AI_TANK_RIGHT],
+    ELEMENTS[:OTHER_TANK_UP],
+    ELEMENTS[:OTHER_TANK_DOWN],
+    ELEMENTS[:OTHER_TANK_LEFT],
+    ELEMENTS[:OTHER_TANK_RIGHT]
+  ]
 
-    TANK = [
-      ELEMENTS[:TANK_UP],
-      ELEMENTS[:TANK_DOWN],
-      ELEMENTS[:TANK_LEFT],
-      ELEMENTS[:TANK_RIGHT]
-    ]
+  TANK = [
+    ELEMENTS[:TANK_UP],
+    ELEMENTS[:TANK_DOWN],
+    ELEMENTS[:TANK_LEFT],
+    ELEMENTS[:TANK_RIGHT]
+  ]
 
-    BARRIERS = [
-      ELEMENTS[:BATTLE_WALL],
-      ELEMENTS[:CONSTRUCTION],
-      ELEMENTS[:CONSTRUCTION_DESTROYED_DOWN],
-      ELEMENTS[:CONSTRUCTION_DESTROYED_UP],
-      ELEMENTS[:CONSTRUCTION_DESTROYED_LEFT],
-      ELEMENTS[:CONSTRUCTION_DESTROYED_RIGHT],
-      ELEMENTS[:CONSTRUCTION_DESTROYED_DOWN_TWICE],
-      ELEMENTS[:CONSTRUCTION_DESTROYED_UP_TWICE],
-      ELEMENTS[:CONSTRUCTION_DESTROYED_LEFT_TWICE],
-      ELEMENTS[:CONSTRUCTION_DESTROYED_RIGHT_TWICE],
-      ELEMENTS[:CONSTRUCTION_DESTROYED_LEFT_RIGHT],
-      ELEMENTS[:CONSTRUCTION_DESTROYED_UP_DOWN],
-      ELEMENTS[:CONSTRUCTION_DESTROYED_UP_LEFT],
-      ELEMENTS[:CONSTRUCTION_DESTROYED_RIGHT_UP],
-      ELEMENTS[:CONSTRUCTION_DESTROYED_DOWN_LEFT],
-      ELEMENTS[:CONSTRUCTION_DESTROYED_DOWN_RIGHT]
-    ]
+  BARRIERS = [
+    ELEMENTS[:BATTLE_WALL],
+    ELEMENTS[:CONSTRUCTION],
+    ELEMENTS[:CONSTRUCTION_DESTROYED_DOWN],
+    ELEMENTS[:CONSTRUCTION_DESTROYED_UP],
+    ELEMENTS[:CONSTRUCTION_DESTROYED_LEFT],
+    ELEMENTS[:CONSTRUCTION_DESTROYED_RIGHT],
+    ELEMENTS[:CONSTRUCTION_DESTROYED_DOWN_TWICE],
+    ELEMENTS[:CONSTRUCTION_DESTROYED_UP_TWICE],
+    ELEMENTS[:CONSTRUCTION_DESTROYED_LEFT_TWICE],
+    ELEMENTS[:CONSTRUCTION_DESTROYED_RIGHT_TWICE],
+    ELEMENTS[:CONSTRUCTION_DESTROYED_LEFT_RIGHT],
+    ELEMENTS[:CONSTRUCTION_DESTROYED_UP_DOWN],
+    ELEMENTS[:CONSTRUCTION_DESTROYED_UP_LEFT],
+    ELEMENTS[:CONSTRUCTION_DESTROYED_RIGHT_UP],
+    ELEMENTS[:CONSTRUCTION_DESTROYED_DOWN_LEFT],
+    ELEMENTS[:CONSTRUCTION_DESTROYED_DOWN_RIGHT]
+  ]
 
-    def process(data)
-      @raw = data
+  def process(data)
+    @raw = data
+  end
+
+  def size
+    @size ||= Math.sqrt(@raw.length);
+  end
+
+  def xyl
+    @xyl ||= LengthToXY.new(size);
+  end
+
+  def getAt(x, y)
+    return false if Point.new(x, y).out_of?(size)
+    @raw[xyl.getLength(x, y)];
+  end
+
+  def at?(x, y, element)
+    return false if Point.new(x, y).out_of?(size)
+    getAt(x, y) == element;
+  end
+
+  def findAll(element)
+    result = []
+    @raw.length.times do |i|
+      point = xyl.getXY(i);
+      result.push(point) if at?(point.x, point.y, element)
     end
+    result;
+  end
 
-    def size
-      @size ||= Math.sqrt(@raw.length);
-    end
+  def get_me
+    me = find_by_list(TANK)
+    return nil if me.nil?
+    find_by_list(TANK).flatten
+  end
 
-    def xyl
-      @xyl ||= LengthToXY.new(size);
-    end
+  def find_by_list(list)
+    result = list.map{ |e| findAll(e) }.flatten.map{ |e| [e.x, e.y] }
+    return nil if (result.length == 0)
+    result
+  end
 
-    def getAt(x, y)
-      return false if Point.new(x, y).out_of?(size)
-      @raw[xyl.getLength(x, y)];
-    end
+  def get_enemies
+    find_by_list(ENEMIES)
+  end
 
-    def at?(x, y, element)
-      return false if Point.new(x, y).out_of?(size)
-      getAt(x, y) == element;
-    end
+  def get_bullets
+    find_by_list([ELEMENTS[:BULLET]])
+  end
 
-    def findAll(element)
-      result = []
-      @raw.length.times do |i|
-        point = xyl.getXY(i);
-        result.push(point) if at?(point.x, point.y, element)
+  def get_near(x, y)
+    return false if Point.new(x, y).out_of?(size)
+    result = []
+    (-1..1).each do |dx|
+      (-1..1).each do |dy|
+          next if (dx == 0 && dy == 0)
+          result.push(getAt(x + dx, y + dy))
       end
-      result;
     end
+    result;
+  end
 
-    def get_me
-      me = find_by_list(TANK)
-      return nil if me.nil?
-      find_by_list(TANK).flatten
-    end
+  def barrier_at?(x, y)
+    return false if Point.new(x, y).out_of?(size)
+    get_barriers.include?([x.to_f, y.to_f]);
+  end
 
-    def find_by_list(list)
-      result = list.map{ |e| findAll(e) }.flatten.map{ |e| [e.x, e.y] }
-      return nil if (result.length == 0)
-      result
-    end
+  def count_near(x, y, element)
+    get_near(x, y).select{ |e| e == element}.size
+  end
 
-    def get_enemies
-      find_by_list(ENEMIES)
-    end
+  def near?(x, y, element)
+    n = get_near(x, y)
+    return false if !n
+    n.include?(element);
+  end
 
-    def get_bullets
-      find_by_list([ELEMENTS[:BULLET]])
-    end
+  def bullet_at?(x, y)
+    return false if Point.new(x, y).out_of?(size)
+    getAt(x, y) == ELEMENTS[:BULLET]
+  end
 
-    def get_near(x, y)
-      return false if Point.new(x, y).out_of?(size)
-      result = []
-      (-1..1).each do |dx|
-        (-1..1).each do |dy|
-            next if (dx == 0 && dy == 0)
-            result.push(getAt(x + dx, y + dy))
-        end
-      end
-      result;
+  def any_of_at?(x, y, elements = [])
+    return false if Point.new(x, y).out_of?(size)
+    elements.each do |e|
+      return true if at?(x, y, e)
     end
+    false;
+  end
 
-    def barrier_at?(x, y)
-      return false if Point.new(x, y).out_of?(size)
-      get_barriers.include?([x.to_f, y.to_f]);
-    end
+  def game_over?
+    get_me.nil?;
+  end
 
-    def count_near(x, y, element)
-      get_near(x, y).select{ |e| e == element}.size
-    end
+  def board_to_s
+    Array.new(size).each_with_index.map{ |e, n| @raw[(n * size)..((n + 1) * size - 1)]}.join("\n")
+  end
 
-    def near?(x, y, element)
-      n = get_near(x, y)
-      return false if !n
-      n.include?(element);
-    end
+  def get_barriers
+    find_by_list(BARRIERS)
+  end
 
-    def bullet_at?(x, y)
-      return false if Point.new(x, y).out_of?(size)
-      getAt(x, y) == ELEMENTS[:BULLET]
-    end
-
-    def any_of_at?(x, y, elements = [])
-      return false if Point.new(x, y).out_of?(size)
-      elements.each do |e|
-        return true if at?(x, y, e)
-      end
-      false;
-    end
-
-    def game_over?
-      get_me.nil?;
-    end
-
-    def board_to_s
-      Array.new(size).each_with_index.map{ |e, n| @raw[(n * size)..((n + 1) * size - 1)]}.join("\n")
-    end
-
-    def get_barriers
-      find_by_list(BARRIERS)
-    end
-
-    def to_s
-      [
-        "Board:\n#{board_to_s}",
-        "My tank at: #{get_me}",
-        "Enemies at: #{get_enemies}",
-        "Bullets at: #{get_bullets}"
-      ].join("\n")
-    end
+  def to_s
+    [
+      "Board:\n#{board_to_s}",
+      "My tank at: #{get_me}",
+      "Enemies at: #{get_enemies}",
+      "Bullets at: #{get_bullets}"
+    ].join("\n")
   end
 end
