@@ -1,5 +1,3 @@
-# require_relative "codenjoy/client"
-require "bundler/setup"
 require "codenjoy/client"
 require "codenjoy/games/battlecity/board"
 require "codenjoy/games/tetris/board"
