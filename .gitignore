@@ -8,5 +8,6 @@
 /tmp/
 
 # rspec failure tracking
+Gemfile.lock
 .rspec_status
 hw.rb

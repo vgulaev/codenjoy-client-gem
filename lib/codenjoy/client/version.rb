@@ -1,5 +1,5 @@
 module Codenjoy
   module Client
-    VERSION = "0.1.003"
+    VERSION = "0.1.004"
   end
 end
