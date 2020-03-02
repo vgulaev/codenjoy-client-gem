@@ -24,28 +24,16 @@ require 'json'
 
 ##################################### ELEMENTS TYPES #########################################################
 
-ELEMENTS = Hash.new
-
-# This is glass content
-ELEMENTS[:I_BLUE] = 'I'
-ELEMENTS[:J_CYAN] = 'J'
-ELEMENTS[:L_ORANGE] = 'L'
-ELEMENTS[:O_YELLOW] = 'O'
-ELEMENTS[:S_GREEN] = 'S'
-ELEMENTS[:T_PURPLE] = 'T'
-ELEMENTS[:Z_RED] = 'Z'
-ELEMENTS[:NONE] = '.'
-
 # List of figures
-FIGURES = [
-    ELEMENTS[:I_BLUE],
-    ELEMENTS[:J_CYAN],
-    ELEMENTS[:L_ORANGE],
-    ELEMENTS[:O_YELLOW],
-    ELEMENTS[:S_GREEN],
-    ELEMENTS[:T_PURPLE],
-    ELEMENTS[:Z_RED]
-]
+# FIGURES = [
+#     Codenjoy::Client::Games::Tetris::Board::ELEMENTS[:I_BLUE],
+#     Codenjoy::Client::Games::Tetris::Board::ELEMENTS[:J_CYAN],
+#     Codenjoy::Client::Games::Tetris::Board::ELEMENTS[:L_ORANGE],
+#     Codenjoy::Client::Games::Tetris::Board::ELEMENTS[:O_YELLOW],
+#     Codenjoy::Client::Games::Tetris::Board::ELEMENTS[:S_GREEN],
+#     Codenjoy::Client::Games::Tetris::Board::ELEMENTS[:T_PURPLE],
+#     Codenjoy::Client::Games::Tetris::Board::ELEMENTS[:Z_RED]
+# ]
 
 ##################################### END OF ELEMENTS TYPES #########################################################
 
@@ -80,6 +68,21 @@ module Codenjoy
 end
 
 class Codenjoy::Client::Games::Tetris::Board
+  # This is glass content
+  ELEMENTS = {
+    :I_BLUE => 'I',
+    :J_CYAN => 'J',
+    :L_ORANGE => 'L',
+    :O_YELLOW => 'O',
+    :S_GREEN => 'S',
+    :T_PURPLE => 'T',
+    :Z_RED => 'Z',
+    :NONE => '.',
+  }
+
+  FIGURES = [:I_BLUE, :J_CYAN, :L_ORANGE, :O_YELLOW, :S_GREEN, :T_PURPLE, :Z_RE]
+              .map{ |e| Codenjoy::Client::Games::Tetris::Board::ELEMENTS[e] }
+
   attr_accessor :board
   attr_accessor :size
   attr_accessor :current_figure_type
@@ -212,7 +215,7 @@ class Codenjoy::Client::Games::Tetris::Board
   #
   # @return [Array[Point]] array of walls positions
   def get_free_space
-    get(ELEMENTS[:NONE])
+    get(Codenjoy::Client::Games::Tetris::Board::ELEMENTS[:NONE])
   end
 
   # How far specified element from position (strait direction)
@@ -238,7 +241,7 @@ class Codenjoy::Client::Games::Tetris::Board
           )
       )
 
-      return size if element == ELEMENTS[:WALL]
+      return size if element == Codenjoy::Client::Games::Tetris::Board::ELEMENTS[:WALL]
       return distance if element == el
     end
 
