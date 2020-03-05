@@ -1,6 +1,7 @@
 require "bundler/setup"
 require "codenjoy/client"
 require "codenjoy/games/battlecity/board"
+require "codenjoy/games/snake/board"
 require "codenjoy/games/tetris/board"
 
 RSpec.configure do |config|

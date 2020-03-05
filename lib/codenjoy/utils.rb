@@ -45,3 +45,30 @@ class Point
     x >= board_size || y >= board_size || x < 0 || y < 0;
   end
 end
+
+class LengthToXY
+  def initialize(board_size)
+    @board_size = board_size
+  end
+
+  def inversionY(y)
+    @board_size - 1 - y;
+  end
+
+  def inversionX(x)
+    x;
+  end
+
+  def getXY(length)
+    return nil if (length == -1)
+    x = inversionX(length % @board_size);
+    y = inversionY((length / @board_size).floor);
+    return Point.new(x, y);
+  end
+
+  def getLength(x, y)
+      xx = inversionX(x);
+      yy = inversionY(y);
+      yy * @board_size + xx;
+  end
+end

@@ -23,33 +23,6 @@
 require "codenjoy/utils"
 require 'json'
 
-class LengthToXY
-  def initialize(board_size)
-    @board_size = board_size
-  end
-
-  def inversionY(y)
-    @board_size - 1 - y;
-  end
-
-  def inversionX(x)
-    x;
-  end
-
-  def getXY(length)
-    return nil if (length == -1)
-    x = inversionX(length % @board_size);
-    y = inversionY((length / @board_size).floor);
-    return Point.new(x, y);
-  end
-
-  def getLength(x, y)
-      xx = inversionX(x);
-      yy = inversionY(y);
-      yy * @board_size + xx;
-  end
-end
-
 module Codenjoy
   module Client
     module Games
@@ -165,7 +138,7 @@ class Codenjoy::Client::Games::Battlecity::Board
     getAt(x, y) == element;
   end
 
-  def findAll(element)
+  def find_all(element)
     result = []
     @raw.length.times do |i|
       point = xyl.getXY(i);
@@ -181,7 +154,7 @@ class Codenjoy::Client::Games::Battlecity::Board
   end
 
   def find_by_list(list)
-    result = list.map{ |e| findAll(e) }.flatten.map{ |e| [e.x, e.y] }
+    result = list.map{ |e| find_all(e) }.flatten.map{ |e| [e.x, e.y] }
     return nil if (result.length == 0)
     result
   end

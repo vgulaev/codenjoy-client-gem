@@ -22,42 +22,6 @@
 require "codenjoy/utils"
 require 'json'
 
-##################################### ELEMENTS TYPES #########################################################
-
-# List of figures
-# FIGURES = [
-#     Codenjoy::Client::Games::Tetris::Board::ELEMENTS[:I_BLUE],
-#     Codenjoy::Client::Games::Tetris::Board::ELEMENTS[:J_CYAN],
-#     Codenjoy::Client::Games::Tetris::Board::ELEMENTS[:L_ORANGE],
-#     Codenjoy::Client::Games::Tetris::Board::ELEMENTS[:O_YELLOW],
-#     Codenjoy::Client::Games::Tetris::Board::ELEMENTS[:S_GREEN],
-#     Codenjoy::Client::Games::Tetris::Board::ELEMENTS[:T_PURPLE],
-#     Codenjoy::Client::Games::Tetris::Board::ELEMENTS[:Z_RED]
-# ]
-
-##################################### END OF ELEMENTS TYPES #########################################################
-
-# Return list of indexes of char +char+ in string +s+ ("STR".index returns only first char/string appear)
-#
-# @param [String] s string to search in
-# @param [String] char substring to search
-# @return [Array] list of indexes
-def indexes(s, char)
-  (0 ... s.length).find_all { |i| s[i,1] == char }
-end
-
-def compare(pt1, pt2)
-  if (pt1.x <=> pt2.x) != 0
-    pt1.x <=> pt2.x
-  else
-    pt1.y <=> pt2.y
-  end
-end
-
-def sort(array)
-  array.sort { |pt1, pt2| compare(pt1, pt2) }
-end
-
 module Codenjoy
   module Client
     module Games
@@ -88,6 +52,18 @@ class Codenjoy::Client::Games::Tetris::Board
   attr_accessor :current_figure_type
   attr_accessor :future_figures
   attr_accessor :current_figure_point
+
+  def compare(pt1, pt2)
+    if (pt1.x <=> pt2.x) != 0
+      pt1.x <=> pt2.x
+    else
+      pt1.y <=> pt2.y
+    end
+  end
+
+  def sort(array)
+    array.sort { |pt1, pt2| compare(pt1, pt2) }
+  end
 
   def process(str)
     puts "-------------------------------------------------------------------------------------------"
