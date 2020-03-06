@@ -43,9 +43,9 @@ RSpec.describe Codenjoy::Client::Games::Snake::Board do
   it { expect(@board.at?(3, @board.size(), @elements[:BREAK])).to eq false }
   it { expect(@board.at?(3, @board.size() - 1, @elements[:BREAK])).to eq true }
 
-  it { expect(@board.getAt(9, 13)).to eq bad_apple }
-  it { expect(@board.getAt(6, 8)).to eq tail_left_up }
-  it { expect(@board.getAt(3, 0)).to eq @elements[:BREAK] }
+  it { expect(@board.get_at(9, 13)).to eq bad_apple }
+  it { expect(@board.get_at(6, 8)).to eq tail_left_up }
+  it { expect(@board.get_at(3, 0)).to eq @elements[:BREAK] }
 
   it { expect(@board.board_to_s + "\n").to eq @formated_data }
 
@@ -60,11 +60,11 @@ RSpec.describe Codenjoy::Client::Games::Snake::Board do
   it { expect(@board.any_of_at?(9, 13, [@elements[:HEAD_DOWN]])).to eq false }
   it { expect(@board.any_of_at?(3, -1, [@elements[:HEAD_DOWN]])).to eq false }
 
-  it { expect(@board.near?(9, 14, @elements[:BAD_APPLE])).to eq true }
-  it { expect(@board.near?(8, 13, @elements[:BAD_APPLE])).to eq true }
+  it { expect(@board.near?(9, 14,  @elements[:BAD_APPLE])).to eq true }
+  it { expect(@board.near?(8, 13,  @elements[:BAD_APPLE])).to eq true }
   it { expect(@board.near?(10, 13, @elements[:BAD_APPLE])).to eq true }
-  it { expect(@board.near?(8, 12, @elements[:BAD_APPLE])).to eq false }
-  it { expect(@board.near?(3, -1, @elements[:BAD_APPLE])).to eq false }
+  it { expect(@board.near?(8, 12,  @elements[:BAD_APPLE])).to eq false }
+  it { expect(@board.near?(3, -1,  @elements[:BAD_APPLE])).to eq false }
 
   it { expect(@board.barrier_at?(9, 13)).to eq true }
   it { expect(@board.barrier_at?(0, 0)).to eq true }

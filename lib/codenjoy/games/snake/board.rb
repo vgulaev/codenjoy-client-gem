@@ -1,4 +1,5 @@
 require "codenjoy/utils"
+require "codenjoy/base_board"
 
 module Codenjoy
   module Client
@@ -9,7 +10,7 @@ module Codenjoy
   end
 end
 
-class Codenjoy::Client::Games::Snake::Board
+class Codenjoy::Client::Games::Snake::Board < BaseBoard
   ELEMENTS = {
     BAD_APPLE: '☻',
     GOOD_APPLE: '☺',
@@ -35,45 +36,10 @@ class Codenjoy::Client::Games::Snake::Board
     NONE: ' '
   }
 
-  def xyl
-    @xyl ||= LengthToXY.new(size);
-  end
-
-  def size
-    @size ||= Math.sqrt(@raw.length);
-  end
-
   def process(str)
     puts "-------------------------------------------------------------------------------------------"
     puts str
     @raw = str
-  end
-
-  def board_to_s
-    Array.new(size).each_with_index.map{ |e, n| @raw[(n * size)..((n + 1) * size - 1)]}.join("\n")
-  end
-
-  def getAt(x, y)
-    return false if Point.new(x, y).out_of?(size)
-    @raw[xyl.getLength(x, y)];
-  end
-
-  def at?(x, y, element)
-    return false if Point.new(x, y).out_of?(size)
-    getAt(x, y) == element;
-  end
-
-  def find_all(element)
-    result = []
-    @raw.length.times do |i|
-      point = xyl.getXY(i);
-      result.push(point) if at?(point.x, point.y, element)
-    end
-    result;
-  end
-
-  def find_by_list(list)
-    list.map{ |e| find_all(e) }.flatten.map{ |e| [e.x, e.y] }
   end
 
   def get_my_head
@@ -135,7 +101,8 @@ class Codenjoy::Client::Games::Snake::Board
 
   def to_s
     [
-      "Board: \n#{board_to_s}",
+      "Board:",
+      board_to_s,
       "My head at: #{get_my_head}",
       "My body at: #{get_my_body}",
       "Apple at: #{get_apple}",

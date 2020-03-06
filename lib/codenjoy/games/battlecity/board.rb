@@ -21,7 +21,7 @@
 ###
 
 require "codenjoy/utils"
-require 'json'
+require "codenjoy/base_board"
 
 module Codenjoy
   module Client
@@ -32,7 +32,7 @@ module Codenjoy
   end
 end
 
-class Codenjoy::Client::Games::Battlecity::Board
+class Codenjoy::Client::Games::Battlecity::Board < BaseBoard
 
   ELEMENTS = {
     NONE: ' ',
@@ -120,31 +120,8 @@ class Codenjoy::Client::Games::Battlecity::Board
     @raw = data
   end
 
-  def size
-    @size ||= Math.sqrt(@raw.length);
-  end
-
   def xyl
     @xyl ||= LengthToXY.new(size);
-  end
-
-  def getAt(x, y)
-    return false if Point.new(x, y).out_of?(size)
-    @raw[xyl.getLength(x, y)];
-  end
-
-  def at?(x, y, element)
-    return false if Point.new(x, y).out_of?(size)
-    getAt(x, y) == element;
-  end
-
-  def find_all(element)
-    result = []
-    @raw.length.times do |i|
-      point = xyl.getXY(i);
-      result.push(point) if at?(point.x, point.y, element)
-    end
-    result;
   end
 
   def get_me
@@ -173,7 +150,7 @@ class Codenjoy::Client::Games::Battlecity::Board
     (-1..1).each do |dx|
       (-1..1).each do |dy|
           next if (dx == 0 && dy == 0)
-          result.push(getAt(x + dx, y + dy))
+          result.push(get_at(x + dx, y + dy))
       end
     end
     result;
@@ -196,7 +173,7 @@ class Codenjoy::Client::Games::Battlecity::Board
 
   def bullet_at?(x, y)
     return false if Point.new(x, y).out_of?(size)
-    getAt(x, y) == ELEMENTS[:BULLET]
+    get_at(x, y) == ELEMENTS[:BULLET]
   end
 
   def any_of_at?(x, y, elements = [])
@@ -209,10 +186,6 @@ class Codenjoy::Client::Games::Battlecity::Board
 
   def game_over?
     get_me.nil?;
-  end
-
-  def board_to_s
-    Array.new(size).each_with_index.map{ |e, n| @raw[(n * size)..((n + 1) * size - 1)]}.join("\n")
   end
 
   def get_barriers

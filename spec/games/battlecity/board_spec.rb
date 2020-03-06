@@ -30,7 +30,7 @@ RSpec.describe Codenjoy::Client::Games::Battlecity do
   it { expect(@board.get_enemies).to eq enemies }
 
   context "shoud correct for outborded coord" do
-    %w(getAt bullet_at? any_of_at?).each do |method|
+    %w(get_at bullet_at? any_of_at?).each do |method|
       it { expect(@board.send(method, 100, 100)).to eq false }
     end
   end
