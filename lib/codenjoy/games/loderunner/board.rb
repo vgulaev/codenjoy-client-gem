@@ -146,7 +146,7 @@ class Codenjoy::Client::Games::Loderunner::Board < BaseBoard
   end
 
   def game_over?
-    @raw.index(ELEMENTS[:HERO_DIE]).nil?;
+    !@raw.index(ELEMENTS[:HERO_DIE]).nil?
   end
 
   def get_barriers
@@ -155,17 +155,17 @@ class Codenjoy::Client::Games::Loderunner::Board < BaseBoard
 
   def barrier_at?(x, y)
     return false if Point.new(x, y).out_of?(size)
-    !(get_barriers.index([x, y]).nil?)
+    !get_barriers.index([x, y]).nil?
   end
 
   def enemy_at?(x, y)
     return false if Point.new(x, y).out_of?(size)
-    any_of_at?(x, y, ENEMY)
+    any_of_at?(x, y, ENEMY.map{ |e| ELEMENTS[e] })
   end
 
   def other_hero_at?(x, y)
     return false if Point.new(x, y).out_of?(size)
-    any_of_at?(x, y, OTHER_HERO)
+    any_of_at?(x, y, OTHER_HERO.map{ |e| ELEMENTS[e] })
   end
 
   def wall_at?(x, y)
@@ -175,16 +175,16 @@ class Codenjoy::Client::Games::Loderunner::Board < BaseBoard
 
   def ladder_at?(x, y)
     return false if Point.new(x, y).out_of?(size)
-    any_of_at?(x, y, [ELEMENTS[:BRICK], ELEMENTS[:UNDESTROYABLE_WALL]])
+    any_of_at?(x, y, [ELEMENTS[:LADDER], ELEMENTS[:HERO_LADDER], ELEMENTS[:ENEMY_LADDER]])
   end
 
   def gold_at?(x, y)
     return false if Point.new(x, y).out_of?(size)
-    is_at?(x, y, ELEMENTS[:GOLD])
+    at?(x, y, ELEMENTS[:GOLD])
   end
 
   def pipe_at?(x, y)
     return false if Point.new(x, y).out_of?(size)
-    any_of_at?(x, y, PIPE)
+    any_of_at?(x, y, PIPE.map{ |e| ELEMENTS[e] })
   end
 end

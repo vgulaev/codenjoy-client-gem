@@ -15,7 +15,7 @@ class BaseBoard
 
   def get_at(x, y)
     return false if Point.new(x, y).out_of?(size)
-    @raw[xyl.getLength(x, y)];
+    @raw[xyl.getLength(x, y)]
   end
 
   def any_of_at?(x, y, elements = [])
