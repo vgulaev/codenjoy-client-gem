@@ -76,29 +76,6 @@ class Codenjoy::Client::Games::Snake::Board < BaseBoard
     get_barriers.include?([x.to_f, y.to_f]);
   end
 
-  def any_of_at?(x, y, elements = [])
-    return false if Point.new(x, y).out_of?(size)
-    elements.each do |e|
-      return true if at?(x, y, e)
-    end
-    false;
-  end
-
-  def near?(x, y, element)
-    return false if Point.new(x, y).out_of?(size)
-    at?(x + 1, y, element) || at?(x - 1, y, element) || at?(x, y + 1, element) || at?(x, y - 1, element)
-  end
-
-  def count_near(x, y, element)
-    return 0 if Point.new(x, y).out_of?(size)
-    count = 0
-    count += 1 if at?(x - 1, y    , element)
-    count += 1 if at?(x + 1, y    , element)
-    count += 1 if at?(x    , y - 1, element)
-    count += 1 if at?(x    , y + 1, element)
-    return count;
-  end
-
   def to_s
     [
       "Board:",
