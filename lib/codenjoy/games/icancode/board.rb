@@ -38,7 +38,7 @@ class Layer < BaseBoard
   end
 end
 
-class Codenjoy::Client::Games::Icancode::Board < BaseBoard
+class Codenjoy::Client::Games::Icancode::Board
 
   ELEMENT = {
     EMPTY: '-',
