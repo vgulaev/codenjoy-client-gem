@@ -4,6 +4,7 @@ require "codenjoy/games/battlecity/board"
 require "codenjoy/games/icancode/board"
 require "codenjoy/games/loderunner/board"
 require "codenjoy/games/snake/board"
+require "codenjoy/games/snakebattle/board"
 require "codenjoy/games/tetris/board"
 
 RSpec.configure do |config|
