@@ -8,11 +8,10 @@ sourse = "#{game.source_path}/game_base_client.rb"
 dest = "#{Dir.pwd}/game_base_client.rb"
 
 puts "codenjoy-ruby-client util for develop ruby client for https://dojorena.io/"
+puts "--game flag if you are learning with codenjoy"
 puts "--game common cases"
+puts "Use --dev flag if you are developing codenjoy"
 puts "--dev for dev mode"
-
-# def add_dev_line
-# end
 
 if ['--dev', '--game'].include?(ARGV[0])
   p "#{sourse} ==> #{dest}"
@@ -26,4 +25,3 @@ if ['--dev', '--game'].include?(ARGV[0])
     end
   end
 end
-

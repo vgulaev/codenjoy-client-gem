@@ -5,6 +5,7 @@ require "codenjoy/games/icancode/board"
 require "codenjoy/games/loderunner/board"
 require "codenjoy/games/snake/board"
 require "codenjoy/games/tetris/board"
+require "codenjoy/games/minesweeper/board"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
