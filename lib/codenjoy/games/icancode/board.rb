@@ -32,12 +32,6 @@ module Codenjoy
   end
 end
 
-class Layer < BaseBoard
-  def initialize(data)
-    @raw = data
-  end
-end
-
 class Codenjoy::Client::Games::Icancode::Board
 
   ELEMENT = {

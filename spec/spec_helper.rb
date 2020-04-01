@@ -1,6 +1,7 @@
 require "bundler/setup"
 require "codenjoy/client"
 require "codenjoy/games/battlecity/board"
+require "codenjoy/games/expansion/board"
 require "codenjoy/games/icancode/board"
 require "codenjoy/games/loderunner/board"
 require "codenjoy/games/snake/board"

@@ -59,3 +59,9 @@ class BaseBoard
     count
   end
 end
+
+class Layer < BaseBoard
+  def initialize(data)
+    @raw = data
+  end
+end
