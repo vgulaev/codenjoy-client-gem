@@ -1,6 +1,6 @@
 # Codenjoy::Client
 
-This is ruby client for https://github.com/codenjoyme/codenjoy project. It uses for playing dojorena.io.
+This is ruby client for https://github.com/codenjoyme/codenjoy project. It uses for playing https://dojorena.io.
 
 ## Installation
 
