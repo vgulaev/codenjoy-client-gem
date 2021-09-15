@@ -1,7 +1,7 @@
-RSpec.describe Codenjoy::Client::Games::Loderunner do
+RSpec.describe Codenjoy::Client::Games::Clifford do
   before(:context) do
-    @formated_data = File.open("spec/games/loderunner/test_board.txt", "r").read
-    @board = Codenjoy::Client::Games::Loderunner::Board.new
+    @formated_data = File.open("spec/games/clifford/test_board.txt", "r").read
+    @board = Codenjoy::Client::Games::Clifford::Board.new
     data = @formated_data.split("\n").join('')
     @board.process(data)
     p @board.get_pipes[4]

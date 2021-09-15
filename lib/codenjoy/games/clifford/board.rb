@@ -26,13 +26,13 @@ require "codenjoy/base_board"
 module Codenjoy
   module Client
     module Games
-      module Loderunner
+      module Clifford
       end
     end
   end
 end
 
-class Codenjoy::Client::Games::Loderunner::Board < BaseBoard
+class Codenjoy::Client::Games::Clifford::Board < BaseBoard
 
   ELEMENTS = {
     # a void
